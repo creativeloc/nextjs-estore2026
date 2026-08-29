@@ -1,3 +1,9 @@
+import FrontendLayout from "@/components/layouts/FrontendLayout"
+
 export default function Home() {
-  return <h1>eCommerce Website</h1>
+  return (
+    <FrontendLayout>
+      <h1>Fashion eCommerce Website</h1>
+    </FrontendLayout>
+  )
 }
