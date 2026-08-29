@@ -1,0 +1,1 @@
+# nextjs-estore2026
