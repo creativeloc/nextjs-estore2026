@@ -6,7 +6,7 @@ export default function BestSellers() {
   return (
     <section>
       <SectionHeader
-        title="Bes Sellers"
+        title="Best Sellers"
         subTitle="Discover our most-loved pieces, carefully selected by thousands of happy customers. Timeless styles designed to elevate your wardrobe"
       />
 
