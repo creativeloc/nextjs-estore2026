@@ -28,7 +28,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-medium tracking-tight text-foreground"
         >
-          C2<span className="text-amber-600">Fashions</span>
+          C2<span className="text-amber-600 font-light">Fashions</span>
         </Link>
 
         {/* Desktop Navigation */}
