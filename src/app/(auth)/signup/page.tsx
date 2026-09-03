@@ -1,10 +1,40 @@
+"use client"
+
 import FrontendLayout from "@/components/layouts/FrontendLayout"
 import Button from "@/components/ui/Button"
 import Input from "@/components/ui/Input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
 import { FcGoogle } from "react-icons/fc"
+import z from "zod"
+
+const signupSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long"),
+  email: z.email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long")
+})
+
+type SignUpFormValues = z.infer<typeof signupSchema>
 
 export default function SignupPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: ""
+    }
+  })
+
+  const onSubmit = async (data: SignUpFormValues) => {
+    console.log(data)
+  }
+
   return (
     <FrontendLayout>
       <section className="flex min-h-[70vh] items-center justify-center py-16">
@@ -21,21 +51,35 @@ export default function SignupPage() {
           </div>
 
           {/* form */}
-          <form className="space-y-5 mt-8">
-            <Input label="Full Name" placeholder="John Doe" type="text" />
+          <form className="space-y-5 mt-8" onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              {...register("name")}
+              label="Full Name"
+              placeholder="John Doe"
+              type="text"
+              error={errors.name?.message}
+            />
             <Input
               label="eMail Address"
               placeholder="john@gmail.com"
               type="email"
+              {...register("email")}
+              error={errors.email?.message}
             />
             <Input
+              {...register("password")}
               label="Password"
               placeholder="Create A Password"
-              type="password"
+              type="text"
+              error={errors.password?.message}
             />
 
-            <Button fullWidth={true}>Create Account</Button>
+            <Button fullWidth={true} disabled={isSubmitting}>
+              {isSubmitting ? "Creating Account..." : "Create Account"}
+            </Button>
+
             <p className="text-center">OR</p>
+
             <Button
               leftIcon={<FcGoogle size={18} />}
               type="button"
