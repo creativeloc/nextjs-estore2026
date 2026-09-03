@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { FaRegUser } from "react-icons/fa"
 import { FiMenu, FiX } from "react-icons/fi"
@@ -56,11 +55,17 @@ export default function Navbar() {
               <IoSearch size={22} />
             </button>
             {/* User Icon */}
-            <button className="rounded-full p-2 text-foreground transition-colors hover:bg-surface">
+            <button
+              className="rounded-full p-2 text-foreground transition-colors hover:bg-surface"
+              onClick={() => router.push("/signin")}
+            >
               <FaRegUser size={22} />
             </button>
             {/* Cart Icon */}
-            <button className="rounded-full p-2 text-foreground transition-colors hover:bg-surface">
+            <button
+              onClick={() => router.push("/cart")}
+              className="rounded-full p-2 text-foreground transition-colors hover:bg-surface"
+            >
               <IoBagOutline size={23} />
             </button>
           </div>
@@ -91,7 +96,7 @@ export default function Navbar() {
 
             <button
               className="mt-4 rounded-lg bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover"
-              onClick={() => router.push("/sign-in")}
+              onClick={() => router.push("/signin")}
             >
               Sign In
             </button>
