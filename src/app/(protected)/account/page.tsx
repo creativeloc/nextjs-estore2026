@@ -50,7 +50,9 @@ export default function AccountPage() {
                 <Button leftIcon={<FaUser />}>Edit Profile</Button>
               </Link>
               <Link href="/account/orders">
-                <Button leftIcon={<FiPackage />}>My Orders</Button>
+                <Button variant="outline" leftIcon={<FiPackage />}>
+                  My Orders
+                </Button>
               </Link>
             </div>
           </div>
