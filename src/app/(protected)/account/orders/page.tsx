@@ -6,7 +6,7 @@ import { FiEye } from "react-icons/fi"
 
 const orders = [
   {
-    id: "#12345",
+    id: "12345",
     image: "/images/product1.png",
     totalItems: 3,
     totalPrice: 259.97,
@@ -14,7 +14,7 @@ const orders = [
     status: "Delivered"
   },
   {
-    id: "#12346",
+    id: "12346",
     image: "/images/product2.png",
     totalItems: 1,
     totalPrice: 79.99,
