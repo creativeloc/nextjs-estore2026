@@ -11,7 +11,8 @@
   --color-muted-foreground: #6b7280;
 
   /* Borders */
-  --color-border: #e5e7eb;
+  /* --color-border: #e5e7eb; */
+  --color-border: #d1d5dc;
 
   /* Primary */
   --color-primary: #1f2937;
