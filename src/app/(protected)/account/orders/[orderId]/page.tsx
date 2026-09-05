@@ -2,7 +2,9 @@ import FrontendLayout from "@/components/layouts/FrontendLayout"
 import BreadCrumb from "@/components/ui/BreadCrumb"
 import Button from "@/components/ui/Button"
 import Image from "next/image"
-import { FiArrowLeft, FiPackage } from "react-icons/fi"
+import Link from "next/link"
+import { FaMoneyBillWave } from "react-icons/fa6"
+import { FiArrowLeft, FiMapPin, FiPackage } from "react-icons/fi"
 
 const order = {
   id: "ORD-8FK2P9",
@@ -21,7 +23,7 @@ const order = {
     lastName: "Doe",
     phone: "+234 801 234 5678",
     street: "15 Admiralty Way",
-    City: "Lekki",
+    city: "Lekki",
     state: "Lagos",
     country: "Nigeria"
   },
@@ -75,13 +77,15 @@ export default function OrderDetailPage() {
         {/* header */}
         <div className="mt-8 flex flex-col gap-5 rounded-2xl border border-border p-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <Button
-              variant="outline"
-              className="mb-5"
-              leftIcon={<FiArrowLeft />}
-            >
-              Back to Orders
-            </Button>
+            <Link href="/account/orders">
+              <Button
+                variant="outline"
+                className="mb-5"
+                leftIcon={<FiArrowLeft />}
+              >
+                Back to Orders
+              </Button>
+            </Link>
 
             <h2 className="text-3xl font-bold">{order.id}</h2>
 
@@ -149,6 +153,76 @@ export default function OrderDetailPage() {
           </div>
 
           {/* right */}
+          <div className="space-y-6 lg:sticky lg:top-24 lg:h-fit">
+            {/* Summary */}
+            <div className="rounded-2xl border border-border p-6">
+              <h2 className="text-2xl font-bold">Order Summary</h2>
+
+              <div className="mt-8 space-y-4">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>${order.subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Shipping</span>
+                  <span>free</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Tax</span>
+                  <span>${order.tax.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between border-t border-border pt-4 text-xl font-bold">
+                  <span>Total</span>
+                  <span>${order.total.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Shipping */}
+            <div className="rounded-2xl border border-border p-6">
+              <div className="flex items-center gap-3">
+                <FiMapPin className="text-primary" />
+
+                <h2 className="text-xl font-semibold">Shipping Address</h2>
+              </div>
+
+              <div className="mt-5 space-y-2 text-muted-foreground">
+                <p className="font-medium text-foreground">
+                  {order.address.firstName} {order.address.lastName}
+                </p>
+                <p>{order.address.phone}</p>
+                <p>{order.address.street}</p>
+                <p>
+                  {order.address.city}, {order.address.state}
+                </p>
+                <p>{order.address.country}</p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border p-6">
+              <div className="flex items-center gap-3">
+                <FaMoneyBillWave className="text-primary" />
+
+                <h2 className="text-xl font-semibold">Payment</h2>
+              </div>
+
+              <div className="mt-5 space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Method</p>
+                  <p className="font-semibold">{order.paymentMethod}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Payment Status
+                  </p>
+                  <span className="rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700">
+                    {order.paymentStatus}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </FrontendLayout>
