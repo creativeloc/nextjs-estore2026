@@ -1,7 +1,12 @@
+"use client"
+
 import FrontendLayout from "@/components/layouts/FrontendLayout"
 import BreadCrumb from "@/components/ui/BreadCrumb"
+import Button from "@/components/ui/Button"
 import Image from "next/image"
 import { FiMinus, FiPlus, FiTrash2 } from "react-icons/fi"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const cartItems = [
   {
@@ -25,6 +30,8 @@ const cartItems = [
 ]
 
 export default function CartPage() {
+  const router = useRouter()
+
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   const subtotal = cartItems.reduce(
@@ -121,6 +128,48 @@ export default function CartPage() {
           </div>
 
           {/* right side */}
+          <div className="rounded-2xl border border-border p-6 h-fit">
+            <h2 className="text-2xl font-bold">Order Summary</h2>
+
+            <div className="mt-8 space-y-4">
+              <div className="flex justify-between">
+                <span>Items</span>
+                <span>{totalItems - 1}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>free</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
+
+              <div className="flex justify-between border-t border-border pt-4 text-xl font-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <Button
+              fullWidth
+              className="mt-8"
+              onClick={() => router.push("/checkout")}
+            >
+              Proceed to Checkout
+            </Button>
+
+            <Link
+              href="/shop"
+              className="mt-5 block text-center text-sm font-medium text-primary hover:underline"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
       </section>
     </FrontendLayout>
