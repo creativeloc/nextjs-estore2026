@@ -1,0 +1,160 @@
+"use client"
+
+import FrontendLayout from "@/components/layouts/FrontendLayout"
+import BreadCrumb from "@/components/ui/BreadCrumb"
+import Input from "@/components/ui/Input"
+import { useState } from "react"
+import { FaMoneyBillWave, FaStripe } from "react-icons/fa6"
+import z from "zod"
+
+const checkoutSchema = z.object({
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+
+  email: z.email("Please enter a valid email address"),
+
+  phone: z.string().min(10, "Please enter a valid phone number"),
+
+  state: z.string().min(2, "State is required"),
+
+  city: z.string().min(2, "City is required"),
+
+  address: z.string().min(5, "Street address is required")
+})
+
+type CheckoutFormValues = z.infer<typeof checkoutSchema>
+
+const cartItems = [
+  {
+    id: 1,
+    name: "Classic Denim Jacket",
+    image: "/images/product1.png",
+    quantity: 1,
+    price: 79.99
+  },
+  {
+    id: 2,
+    name: "Premium Hoodie",
+    image: "/images/product2.png",
+    quantity: 2,
+    price: 59.99
+  }
+]
+
+export default function CheckoutPageComponent() {
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod")
+
+  return (
+    <FrontendLayout>
+      <section className="mx-auto max-w-7xl py-12">
+        <div className="mb-10">
+          <BreadCrumb
+            items={[
+              {
+                label: "Home",
+                href: "/"
+              },
+              {
+                label: "Cart",
+                href: "/cart"
+              },
+              {
+                label: "Checkout"
+              }
+            ]}
+          />
+
+          <p className="mt-2 text-muted-foreground">
+            Complete Your Order Securely
+          </p>
+        </div>
+
+        <form className="grid gap-10 lg:grid-cols-[2fr_1fr]">
+          {/* left side */}
+          <div className="space-y-8">
+            {/* Shipping Address */}
+            <div className="rounded-2xl border border-border p-6">
+              <h2 className="font-semibold text-2xl">Shipping Address</h2>
+
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
+                <Input label="First Name" placeholder="John" />
+                <Input label="Last Name" placeholder="Doe" />
+                <Input label="eMail Address" placeholder="john@gmail.com" />
+                <Input label="Phone Number" placeholder="(814) 555-1212" />
+                <Input label="State" placeholder="California" />
+                <Input label="City" placeholder="Burbank" />
+                <div>
+                  <Input
+                    label="Street Address"
+                    placeholder="56 Some Street Name"
+                    variant="textarea"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* payment method */}
+            <div className="rounded-2xl border border-border p-6">
+              <h2 className="text-xl font-semibold">Payment Method</h2>
+
+              <div className="mt-6 space-y-4">
+                <button
+                  onClick={() => setPaymentMethod("cod")}
+                  type="button"
+                  className={`flex w-full items-center rounded-xl border p-5 text-left transition ${paymentMethod === "cod" ? "border-primary bg-primary/5" : "border-border hover:border-primary"}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${paymentMethod === "cod" ? "border-primary" : "border-border"}`}
+                    >
+                      {paymentMethod === "cod" && (
+                        <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                      )}
+                    </div>
+
+                    <FaMoneyBillWave className="text-green-600" size={24} />
+
+                    <div>
+                      <p className="font-semibold">Cash on Delivery</p>
+                      <p className="text-sm text-muted-foreground">
+                        Pay when your order arrives
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setPaymentMethod("stripe")}
+                  type="button"
+                  className={`flex w-full items-center rounded-xl border p-5 text-left transition ${paymentMethod === "stripe" ? "border-primary bg-primary/5" : "border-border hover:border-primary"}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${paymentMethod === "stripe" ? "border-primary" : "border-border"}`}
+                    >
+                      {paymentMethod === "stripe" && (
+                        <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                      )}
+                    </div>
+
+                    <FaStripe className="text-indigo-600" size={30} />
+
+                    <div>
+                      <p className="font-semibold">Pay with Stripe</p>
+                      <p className="text-sm text-muted-foreground">
+                        VISA, MasterCard, or other...
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* right side */}
+        </form>
+      </section>
+    </FrontendLayout>
+  )
+}
