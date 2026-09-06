@@ -6,6 +6,10 @@ import Input from "@/components/ui/Input"
 import { useState } from "react"
 import { FaMoneyBillWave, FaStripe } from "react-icons/fa6"
 import z from "zod"
+import Button from "../ui/Button"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 const checkoutSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -42,7 +46,13 @@ const cartItems = [
   }
 ]
 
+const subtotal = 199.97
+const shipping = 0
+const tax = subtotal * 0.08
+const total = subtotal + shipping + tax
+
 export default function CheckoutPageComponent() {
+  const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod")
 
   return (
@@ -153,6 +163,70 @@ export default function CheckoutPageComponent() {
           </div>
 
           {/* right side */}
+          <div className="rounded-2xl border border-border p-6 h-fit">
+            <h2 className="text-2xl font-bold">Order Summary</h2>
+
+            <div className="mt-6 space-y-5">
+              {cartItems.map((item) => (
+                <div key={item.id} className="flex gap-4" content="rounded-lg">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={70}
+                    height={85}
+                  />
+
+                  <div className="flex flex-1 justify-between">
+                    <div>
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Qty: {item.quantity}
+                      </p>
+                    </div>
+
+                    <p className="font-semibold">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 space-y-4">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>free</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
+
+              <div className="flex justify-between border-t border-border pt-4 text-xl font-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <Button
+              fullWidth
+              className="mt-8"
+              onClick={() => router.push("/checkout")}
+            >
+              {paymentMethod === "cod" ? "Place Order" : "Continue to Stripe"}
+            </Button>
+
+            <Link
+              href="/shop"
+              className="mt-5 block text-center text-sm font-medium text-primary hover:underline"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </form>
       </section>
     </FrontendLayout>
