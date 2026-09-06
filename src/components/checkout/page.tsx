@@ -10,6 +10,8 @@ import Button from "../ui/Button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const checkoutSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -52,8 +54,31 @@ const tax = subtotal * 0.08
 const total = subtotal + shipping + tax
 
 export default function CheckoutPageComponent() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      state: "",
+      city: "",
+      address: ""
+    }
+  })
   const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod")
+
+  const onSubmit = async (data: CheckoutFormValues) => {
+    console.log({
+      ...data,
+      paymentMethod
+    })
+  }
 
   return (
     <FrontendLayout>
@@ -80,7 +105,10 @@ export default function CheckoutPageComponent() {
           </p>
         </div>
 
-        <form className="grid gap-10 lg:grid-cols-[2fr_1fr]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid gap-10 lg:grid-cols-[2fr_1fr]"
+        >
           {/* left side */}
           <div className="space-y-8">
             {/* Shipping Address */}
@@ -88,17 +116,50 @@ export default function CheckoutPageComponent() {
               <h2 className="font-semibold text-2xl">Shipping Address</h2>
 
               <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <Input label="First Name" placeholder="John" />
-                <Input label="Last Name" placeholder="Doe" />
-                <Input label="eMail Address" placeholder="john@gmail.com" />
-                <Input label="Phone Number" placeholder="(814) 555-1212" />
-                <Input label="State" placeholder="California" />
-                <Input label="City" placeholder="Burbank" />
+                <Input
+                  label="First Name"
+                  placeholder="John"
+                  {...register("firstName")}
+                  error={errors.firstName?.message}
+                />
+
+                <Input
+                  label="Last Name"
+                  placeholder="Doe"
+                  {...register("lastName")}
+                  error={errors.lastName?.message}
+                />
+                <Input
+                  label="eMail Address"
+                  placeholder="john@gmail.com"
+                  {...register("email")}
+                  error={errors.email?.message}
+                />
+                <Input
+                  label="Phone Number"
+                  placeholder="(814) 555-1212"
+                  {...register("phone")}
+                  error={errors.phone?.message}
+                />
+                <Input
+                  label="State"
+                  placeholder="California"
+                  {...register("state")}
+                  error={errors.state?.message}
+                />
+                <Input
+                  label="City"
+                  placeholder="Burbank"
+                  {...register("city")}
+                  error={errors.city?.message}
+                />
                 <div>
                   <Input
                     label="Street Address"
                     placeholder="56 Some Street Name"
                     variant="textarea"
+                    {...register("address")}
+                    error={errors.address?.message}
                   />
                 </div>
               </div>
