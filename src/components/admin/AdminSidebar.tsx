@@ -51,6 +51,12 @@ export default function AdminSidebar() {
       </aside>
 
       {/* desktop sidebar */}
+      <aside className="sticky top-0 hidden h-screen w-72 flex-col border-border bg-background lg:flex">
+        <SidebarContent
+          pathname={pathname}
+          closeSidebar={() => setOpen(false)}
+        />
+      </aside>
     </>
   )
 }
