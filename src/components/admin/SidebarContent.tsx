@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { FiBox, FiHome, FiPackage } from "react-icons/fi"
+import { FaShoppingBag } from "react-icons/fa"
+import { FiBox, FiHome, FiLogOut, FiPackage } from "react-icons/fi"
 import { LuCirclePlus } from "react-icons/lu"
 
 interface SidebarContentProps {
@@ -88,6 +89,20 @@ export default function SidebarContent({
       </div>
 
       {/* bottom section */}
+      <div className="border-t border-border p-4">
+        <Link
+          href="/shop"
+          className="mb-2 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-surface"
+        >
+          <FaShoppingBag size={18} />
+          View Shop
+        </Link>
+
+        <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-destructive transition hover:bg-destructive/10">
+          <FiLogOut size={18} />
+          Logout
+        </button>
+      </div>
     </>
   )
 }
