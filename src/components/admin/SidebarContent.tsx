@@ -28,7 +28,7 @@ const navigation = [
         icon: FiPackage
       },
       {
-        href: "/admin/add-products",
+        href: "/admin/add-product",
         label: "Create Product",
         icon: LuCirclePlus
       }
