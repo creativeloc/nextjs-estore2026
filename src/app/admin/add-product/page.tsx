@@ -1,5 +1,6 @@
 "use client"
 
+import Input from "@/components/ui/Input"
 // import image from "next/image"
 import { useRef, useState } from "react"
 import { FcPrevious } from "react-icons/fc"
@@ -20,7 +21,7 @@ const availableColors = [
 
 export default function AddProductPage() {
   const [images, setImages] = useState<File[]>([])
-  const [sises, setSizes] = useState<string[]>([])
+  const [sizes, setSizes] = useState<string[]>([])
   const [colors, setColors] = useState<string[]>([])
   const [bestSeller, setBestSeller] = useState(false)
 
@@ -38,6 +39,18 @@ export default function AddProductPage() {
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index))
   }
+
+  const toggleSize = (size: string) => {
+    setSizes((prev) =>
+      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    )
+  }
+  const toggleColor = (color: string) => {
+    setColors((prev) =>
+      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
+    )
+  }
+
   return (
     <div className="mx-auto max-w-5xl space-y-8">
       {/* header */}
@@ -97,6 +110,96 @@ export default function AddProductPage() {
         <p className="mt-4 text-sm text-muted-foreground">
           Upload between 1 to 4 product images
         </p>
+      </section>
+
+      {/* product features/information */}
+      <section className="space-y-5 rounded-2xl border border-border bg-background p-6">
+        <h2 className="text-lg font-bold">Product Information</h2>
+        <Input label="Product Name" placeholder="Classic Black Hoodie" />
+        <Input
+          label="Product Description"
+          placeholder="Write a detailed description..."
+        />
+
+        <div className="grid gap-5 md:grid-cols-3">
+          <Input label="Price" placeholder="$79.99" />
+          <Input label="Stock Quantity" placeholder="50" />
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-medium">Category</label>
+
+            <select className="h-12 w-full rounded-lg border border-border bg-background px-4 outline-none transition focus:border-primary">
+              <option>Men</option>
+              <option>Women</option>
+              <option>Children</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Product Type
+            </label>
+
+            <select className="h-12 w-full rounded-lg border border-border bg-background px-4 outline-none transition focus:border-primary">
+              <option>T-Shirts</option>
+              <option>Hoodies</option>
+              <option>Jackets</option>
+              <option>Jeans</option>
+              <option>Shorts</option>
+              <option>Shoes</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* product sizes */}
+      <section className="rounded-2xl border border-border bg-background p-6">
+        <h2 className="text-lg font-semibold mb-5">Available Sizes</h2>
+
+        <div className="flex flex-wrap gap-3">
+          {availableSizes.map((size) => {
+            const selected = sizes.includes(size)
+            return (
+              <button
+                onClick={() => toggleSize(size)}
+                key={size}
+                type="button"
+                className={`h-11 w-16 rounded-lg border font-medium transition ${selected ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary hover:bg-primary/5"}`}
+              >
+                {size}
+              </button>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* product colors */}
+      <section className="rounded-2xl border border-border bg-background p-6">
+        <h2 className="text-lg font-semibold mb-5">Available Colors</h2>
+
+        <div className="flex flex-wrap gap-4">
+          {availableColors.map((color) => {
+            const selected = colors.includes(color.name)
+            return (
+              <button
+                onClick={() => toggleColor(color.name)}
+                key={color.name}
+                type="button"
+                className={`flex items-center gap-3 rounded-xl border px-4 py-3 transition ${selected ? "border-primary bg-primary/5" : "border-border hover:border-primary"}`}
+              >
+                <span
+                  className="h-6 w-6 rounded-full border border-border"
+                  style={{
+                    backgroundColor: color.value
+                  }}
+                />
+
+                <span className="font-medium">{color.name}</span>
+              </button>
+            )
+          })}
+        </div>
       </section>
     </div>
   )
