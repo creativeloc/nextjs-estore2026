@@ -1,5 +1,6 @@
 "use client"
 
+import Button from "@/components/ui/Button"
 import Input from "@/components/ui/Input"
 // import image from "next/image"
 import { useRef, useState } from "react"
@@ -201,6 +202,28 @@ export default function AddProductPage() {
           })}
         </div>
       </section>
+
+      {/* product options */}
+      <section className="rounded-2xl border border-border bg-background p-6">
+        <h2 className="text-lg font-semibold mb-5">Product Options</h2>
+
+        <div className="space-y-4">
+          <label className="flex cursor-pointer items-center gap-3">
+            <input
+              type="checkbox"
+              checked={bestSeller}
+              className="h-5 w-5 accent-primary"
+              onChange={(e) => setBestSeller(e.target.checked)}
+            />
+
+            <span>Mark as Best Seller</span>
+          </label>
+        </div>
+      </section>
+
+      <div className="flex justify-end">
+        <Button>Save Product</Button>
+      </div>
     </div>
   )
 }
