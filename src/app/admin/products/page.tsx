@@ -49,9 +49,9 @@ export default function ProductsPage() {
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
         {/* header */}
         <div>
-          <h2 className="text-3xl font-semibold">Add Product</h2>
+          <h2 className="text-3xl font-semibold">Product</h2>
           <p className="mt-2 text-muted-foreground">
-            Create a New Product for your store
+            View Products in your store
           </p>
         </div>
         <Link href="/add-product">
